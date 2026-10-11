@@ -1,20 +1,27 @@
 """Build the Cardio-Pulm 1 multiple-choice page.
 
 cards.json       the flashcard deck (lessons -> cards with q, a, more, figs, hy)
-distractors.json "<lesson n>-<card index>" -> three wrong choices
+distractors.json "<lesson n>-<card index>" -> three written wrong choices (two are used)
 template.html    page shell; __DATA__ is replaced with the question data
 
 Writes body.html (page content only, for publishing as an artifact) and
 index.html (the same page wrapped in a full HTML document, for GitHub Pages).
 Choice order is fixed per question (seeded by its id) so it never moves between visits.
 """
-import json, hashlib, os
+import json, hashlib, os, re
 
 here = os.path.dirname(os.path.abspath(__file__))
 root = os.path.dirname(here)
 d = json.load(open(f'{here}/cards.json'))
 dis = json.load(open(f'{here}/distractors.json'))
-PERMS = [(0, 1, 2), (0, 2, 1), (1, 0, 2), (1, 2, 0), (2, 0, 1), (2, 1, 0)]
+TAG = re.compile(r'<[^>]+>')
+
+
+def two_wrong(answer, wrong):
+    """Keep the two wrong choices closest in length to the answer, so length gives nothing away."""
+    n = len(TAG.sub('', answer))
+    return sorted(wrong, key=lambda w: abs(len(TAG.sub('', w)) - n))[:2]
+
 
 lessons = []
 for l in d['lessons']:
@@ -22,8 +29,10 @@ for l in d['lessons']:
     for j, c in enumerate(l['cards']):
         cid = f"{l['n']}-{j}"
         h = int(hashlib.sha1(cid.encode()).hexdigest(), 16)
-        k = h % 4
-        wrong = [dis[cid][i] for i in PERMS[(h >> 8) % 6]]
+        k = h % 3
+        wrong = two_wrong(c['a'], dis[cid])
+        if (h >> 8) & 1:
+            wrong.reverse()
         q = {'id': cid, 'q': c['q'], 'o': wrong[:k] + [c['a']] + wrong[k:], 'k': k}
         for key in ('more', 'figs', 'hy'):
             if c.get(key):
