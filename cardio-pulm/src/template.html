@@ -1,0 +1,568 @@
+<title>Cardio-Pulm 1 Questions</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Mono:wght@400;600&family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,600;0,800;1,400&display=swap">
+<style>
+/* Same phone question-book layout as the OMM 1 Written practice questions:
+   one reading column, sticky bar on top, every question flows down the page without pages.
+   Subject colours carried over from the Cardio-Pulm 1 flashcards. */
+:root {
+  --scale: 1;
+  --bg: #f4f6f9; --surface: #ffffff; --ink: #161a22; --muted: #586174; --line: #d9dee7;
+  --accent: #2d4ea3; --accent-soft: #e6ecf8; --on-accent: #ffffff; --ov: #e9edf4;
+  --ok: #1b7543; --ok-soft: #e1f2e8; --bad: #b2372f; --bad-soft: #fbe6e4;
+  --warn: #8a5a00; --warn-soft: #fbf0dc; --shade: rgba(14, 18, 28, .55);
+  --phys: #2f6b8f; --hist: #8a4b2a; --bio: #5a4a8f; --anat: #2f6b45;
+  --font-body: "Atkinson Hyperlegible Next", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "Atkinson Hyperlegible Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #11141a; --surface: #1a1e26; --ink: #e9ecf2; --muted: #9ba3b4; --line: #2d333f;
+    --accent: #93a9ff; --accent-soft: #222a42; --on-accent: #0e1220; --ov: #181d27;
+    --ok: #63d394; --ok-soft: #15301f; --bad: #ff8d84; --bad-soft: #3a1c1a;
+    --warn: #e6bf6a; --warn-soft: #2c2415; --shade: rgba(0, 0, 0, .7);
+    --phys: #7fb8d8; --hist: #d39168; --bio: #a99ad8; --anat: #74b58d;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #11141a; --surface: #1a1e26; --ink: #e9ecf2; --muted: #9ba3b4; --line: #2d333f;
+  --accent: #93a9ff; --accent-soft: #222a42; --on-accent: #0e1220; --ov: #181d27;
+  --ok: #63d394; --ok-soft: #15301f; --bad: #ff8d84; --bad-soft: #3a1c1a;
+  --warn: #e6bf6a; --warn-soft: #2c2415; --shade: rgba(0, 0, 0, .7);
+  --phys: #7fb8d8; --hist: #d39168; --bio: #a99ad8; --anat: #74b58d;
+  color-scheme: dark;
+}
+.phys { --c: var(--phys); } .hist { --c: var(--hist); } .bio { --c: var(--bio); } .anat { --c: var(--anat); }
+
+html { font-size: calc(18px * var(--scale)); -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font-family: var(--font-body); font-size: 1rem; line-height: 1.55; overflow-wrap: break-word;
+}
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+b, strong { font-weight: 800; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+sub, sup { font-size: .72em; line-height: 0; }
+
+/* ---- top bar ---- */
+.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); border-bottom: 1px solid var(--line); }
+.bar-btn {
+  display: flex; align-items: center; gap: .75rem; width: 100%; max-width: 40rem; margin: 0 auto;
+  padding: .55rem 16px; background: none; border: 0; cursor: pointer; text-align: left; min-height: 2.9rem; box-sizing: border-box;
+}
+.bar-topic { flex: 1; min-width: 0; font-size: .86rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bar-topic span { color: var(--muted); font-weight: 400; }
+.bar-q { font-family: var(--font-mono); font-size: .8rem; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.bar-menu {
+  display: inline-flex; align-items: center; gap: .35rem; font-size: .8rem; font-weight: 600;
+  color: var(--accent); border: 1px solid var(--line); border-radius: 999px; padding: .2rem .7rem; background: var(--surface);
+}
+.bar-menu svg { width: 1em; height: 1em; }
+
+/* ---- page ---- */
+.wrap { max-width: 40rem; margin: 0 auto; padding-inline: 16px; padding-block: 1.25rem 4rem; }
+.intro .kicker { font-family: var(--font-mono); font-size: .74rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: .4rem 0 0; }
+.intro h1 { font-size: 1.75rem; line-height: 1.15; font-weight: 800; margin: .4rem 0 .6rem; text-wrap: balance; letter-spacing: -.01em; }
+.intro p { margin: 0 0 .9rem; }
+.intro .topics-line { font-size: .86rem; color: var(--muted); }
+.controls { display: grid; gap: .9rem; margin: 1.2rem 0 .4rem; padding: .9rem; border-radius: 12px; background: var(--accent-soft); }
+.ctl-label { font-size: .78rem; text-transform: uppercase; letter-spacing: .06em; font-weight: 600; color: var(--muted); margin: 0 0 .35rem; }
+.seg { display: flex; flex-wrap: wrap; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--surface); }
+.seg button {
+  flex: 1 1 auto; padding: .6rem .35rem; border: 0; background: none; cursor: pointer; font-weight: 600; font-size: .86rem; min-height: 2.75rem;
+}
+.seg button + button { border-left: 1px solid var(--line); }
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--on-accent); }
+.ctl-hint { font-size: .84rem; color: var(--muted); margin: .4rem 0 0; }
+.size { display: flex; align-items: center; gap: .5rem; }
+.size button { min-width: 3rem; min-height: 2.75rem; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); cursor: pointer; font-weight: 800; }
+.size output { min-width: 3.5rem; text-align: center; font-family: var(--font-mono); font-size: .9rem; font-variant-numeric: tabular-nums; }
+.resume { display: block; width: 100%; margin: .8rem 0 0; padding: .75rem 1rem; border-radius: 10px; border: 0; background: var(--accent); color: var(--on-accent); font-weight: 600; cursor: pointer; text-align: center; min-height: 2.9rem; }
+.filter-empty { margin: 1.5rem 0 0; padding: .9rem 1rem; border-radius: 10px; background: var(--surface); border: 1px dashed var(--line); }
+
+/* ---- subject parts, lessons, sections ---- */
+.part { margin-top: 3.2rem; padding: 1rem; border-radius: 12px; background: var(--ov); border-left: 6px solid var(--c); scroll-margin-top: calc(env(safe-area-inset-top, 0px) + 3.4rem); }
+.part h2 { font-size: 1.3rem; margin: 0 0 .2rem; color: var(--c); }
+.part p { margin: 0; color: var(--muted); font-size: .92rem; }
+.lesson { margin-top: 2.5rem; }
+.lesson-head { scroll-margin-top: calc(env(safe-area-inset-top, 0px) + 3.4rem); padding-top: 1.2rem; border-top: 3px solid var(--c); }
+.eyebrow { font-family: var(--font-mono); font-size: .76rem; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin: 0 0 .3rem; }
+.eyebrow .subj { color: var(--c); font-weight: 600; }
+.lesson-head h2 { font-size: 1.45rem; line-height: 1.2; font-weight: 800; margin: 0 0 .35rem; text-wrap: balance; }
+.cp2 { font-family: var(--font-mono); font-size: .66rem; font-weight: 600; letter-spacing: .05em; padding: .1rem .4rem; border-radius: 5px; border: 1px solid var(--muted); color: var(--muted); vertical-align: .25em; margin-left: .3rem; }
+.sec-tools { display: flex; flex-wrap: wrap; align-items: center; gap: .45rem .5rem; margin: 0 0 .5rem; }
+.sec-stat { flex-basis: 100%; font-family: var(--font-mono); font-size: .78rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.sec-stat b { color: var(--ink); font-weight: 600; }
+.sec-tools button { min-height: 2.5rem; padding: .4rem .85rem; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: .86rem; border: 1px solid var(--line); background: var(--surface); }
+.sec-tools .danger { border-color: var(--bad); color: var(--bad); }
+.sec-tools .danger.arm { background: var(--bad); color: var(--surface); }
+.subsec { margin-top: 1.6rem; }
+.subsec-head { scroll-margin-top: calc(env(safe-area-inset-top, 0px) + 3.4rem); padding: .7rem .9rem .75rem; border-radius: 12px; background: var(--ov); border-left: 4px solid var(--c); }
+.subsec-head .eyebrow { margin-bottom: .1rem; }
+.subsec-head h3 { font-size: 1.12rem; line-height: 1.25; font-weight: 800; margin: 0; text-wrap: balance; }
+
+/* ---- questions ---- */
+.q { padding-block: 1.5rem 1.35rem; border-bottom: 1px solid var(--line); scroll-margin-top: calc(env(safe-area-inset-top, 0px) + 3.4rem); }
+.qhead { display: flex; flex-wrap: wrap; align-items: center; gap: .45rem; margin-bottom: .5rem; }
+.qnum { font-family: var(--font-mono); font-weight: 600; font-size: .95rem; font-variant-numeric: tabular-nums; padding: .05rem .5rem; border-radius: 6px; background: var(--ink); color: var(--bg); }
+.tag { font-family: var(--font-mono); font-size: .68rem; font-weight: 600; letter-spacing: .03em; padding: .12rem .45rem; border-radius: 5px; border: 1px solid var(--warn); color: var(--warn); background: var(--warn-soft); }
+.star {
+  margin-left: auto; min-width: 2.6rem; min-height: 2.6rem; padding: 0; border: 1px solid var(--line); border-radius: 999px;
+  background: var(--surface); cursor: pointer; font-size: 1.2rem; line-height: 1; color: var(--muted); display: inline-grid; place-items: center;
+}
+.star[aria-pressed="true"] { color: var(--warn); border-color: var(--warn); background: var(--warn-soft); }
+.q.starred .qnum { background: var(--warn); color: var(--surface); }
+.stem { margin: 0 0 .9rem; font-size: 1.04rem; font-weight: 600; }
+.opts { list-style: none; margin: 0; padding: 0; display: grid; gap: .5rem; }
+.opt {
+  display: flex; gap: .7rem; align-items: flex-start; width: 100%; text-align: left;
+  padding: .7rem .8rem; border: 1.5px solid var(--line); border-radius: 12px; background: var(--surface);
+  line-height: 1.45; min-height: 2.9rem; box-sizing: border-box; cursor: pointer;
+}
+.quiz .q:not(.done) .opt:active { border-color: var(--accent); background: var(--accent-soft); }
+@media (hover: hover) { .quiz .q:not(.done) .opt:hover { border-color: var(--accent); } }
+.ol { flex: none; display: inline-grid; place-items: center; width: 1.7rem; height: 1.7rem; border-radius: 50%; border: 1.5px solid var(--line); font-family: var(--font-mono); font-weight: 600; font-size: .85rem; margin-top: -.05rem; }
+.ot { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.mk { display: none; font-family: var(--font-mono); font-size: .7rem; font-weight: 600; align-self: center; white-space: nowrap; }
+.done .opt, .all .opt { cursor: default; }
+.done .opt.is-ans, .all .opt.is-ans { border-color: var(--ok); background: var(--ok-soft); }
+.done .opt.is-ans .ol, .all .opt.is-ans .ol { background: var(--ok); border-color: var(--ok); color: var(--surface); }
+.done .opt.is-ans .mk, .all .opt.is-ans .mk { display: inline; color: var(--ok); }
+.done .opt.picked:not(.is-ans) { border-color: var(--bad); background: var(--bad-soft); }
+.done .opt.picked:not(.is-ans) .ol { background: var(--bad); border-color: var(--bad); color: var(--surface); }
+.done .opt.picked:not(.is-ans) .mk { display: inline; color: var(--bad); }
+
+.reveal { margin-top: .9rem; padding: .9rem 1rem; border-radius: 12px; background: var(--surface); border: 1px solid var(--line); display: grid; gap: .7rem; }
+.quiz .q:not(.done) .reveal { display: none; }
+.verdict { font-weight: 800; margin: 0; }
+.verdict.right { color: var(--ok); }
+.verdict.wrong { color: var(--bad); }
+.all .q:not(.done) .verdict { display: none; }
+.answer { border-left: 4px solid var(--ok); background: var(--ov); border-radius: 0 10px 10px 0; padding: .6rem .8rem; font-weight: 600; }
+.answer .lab { display: block; font-family: var(--font-mono); font-size: .7rem; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); font-weight: 400; }
+.more { font-size: .95rem; }
+.more p { margin: 0 0 .6rem; } .more p:last-child { margin-bottom: 0; }
+.more ul, .more ol { margin: 0 0 .6rem; padding-left: 1.2em; }
+.more .tw { overflow-x: auto; }
+.more table { border-collapse: collapse; font-size: .86rem; margin: .2rem 0 .5rem; min-width: 100%; }
+.more th, .more td { text-align: left; vertical-align: top; padding: .35rem .6rem .35rem 0; border-bottom: 1px solid var(--line); }
+.more th { font-weight: 600; }
+details.pics { border: 1px solid var(--line); border-radius: 10px; background: var(--bg); }
+details.pics > summary { cursor: pointer; padding: .55rem .8rem; font-weight: 600; font-size: .92rem; min-height: 2.6rem; display: flex; align-items: center; }
+.pics .figs { display: grid; gap: .8rem; padding: 0 .8rem .8rem; }
+.pics figure { margin: 0; min-width: 0; }
+.pics button { display: block; width: 100%; padding: 0; border: 1px solid var(--line); border-radius: 8px; background: #fff; cursor: zoom-in; overflow: hidden; }
+.pics img { display: block; width: 100%; height: auto; min-height: 3rem; max-height: 70vh; object-fit: contain; }
+.pics figcaption { font-size: .76rem; color: var(--muted); margin-top: .35rem; line-height: 1.4; }
+.retry { justify-self: start; padding: .4rem .9rem; min-height: 2.4rem; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); cursor: pointer; font-weight: 600; font-size: .86rem; }
+.all .q:not(.done) .retry { display: none; }
+
+/* ---- menu sheet ---- */
+.sheet { position: fixed; inset: 0; z-index: 30; display: flex; align-items: flex-end; justify-content: center; background: var(--shade); }
+.sheet-card {
+  width: 100%; max-width: 40rem; max-height: 88%; overflow-y: auto; overscroll-behavior: contain;
+  background: var(--bg); border-radius: 16px 16px 0 0; padding: 1rem 16px calc(1.2rem + env(safe-area-inset-bottom, 0px)); box-sizing: border-box;
+}
+.sheet-top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: .6rem; }
+.sheet-top h2 { font-size: 1.1rem; margin: 0; }
+.close { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: .35rem .9rem; cursor: pointer; font-weight: 600; min-height: 2.4rem; }
+.score { font-size: .9rem; color: var(--muted); margin: .2rem 0 .8rem; }
+.score b { color: var(--ink); }
+.toc { list-style: none; margin: .4rem 0 1rem; padding: 0; }
+.toc-div { font-size: .78rem; text-transform: uppercase; letter-spacing: .06em; font-weight: 600; color: var(--c); padding: 1rem .2rem .2rem; }
+.toc a { display: grid; grid-template-columns: 2.1rem 1fr auto; gap: .6rem; align-items: baseline; padding: .7rem .2rem; border-bottom: 1px solid var(--line); color: var(--ink); text-decoration: none; }
+.toc-n { font-family: var(--font-mono); font-weight: 600; color: var(--c); }
+.toc-title { min-width: 0; font-size: .95rem; }
+.toc-stat { font-family: var(--font-mono); font-size: .76rem; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.toc a.here .toc-title { font-weight: 800; }
+details.toc-subs > summary { cursor: pointer; padding: .45rem .2rem .45rem 2.9rem; font-size: .84rem; color: var(--accent); font-weight: 600; }
+.toc-sub { list-style: none; margin: 0 0 .5rem; padding: 0 0 0 1.4rem; border-bottom: 1px solid var(--line); }
+.toc-sub a { grid-template-columns: 2.1rem 1fr auto; padding: .5rem .2rem; border-bottom: 0; }
+.toc-sub li + li { border-top: 1px solid var(--line); }
+.toc-sub .toc-title { font-size: .9rem; }
+.sheet-row { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; margin-top: 1.2rem; }
+.sheet-row button { border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: .5rem .9rem; cursor: pointer; min-height: 2.6rem; font-weight: 600; }
+.sheet-row .danger { border-color: var(--bad); color: var(--bad); }
+.sheet-row .danger.arm { background: var(--bad); color: var(--surface); }
+
+/* ---- image viewer ---- */
+.lb { position: fixed; inset: 0; z-index: 40; background: var(--shade); display: flex; flex-direction: column; }
+.lb-top { display: flex; justify-content: flex-end; padding: calc(.6rem + env(safe-area-inset-top, 0px)) 16px .6rem; }
+.lb-scroll { flex: 1; overflow: auto; display: flex; align-items: center; padding: 0 8px calc(8px + env(safe-area-inset-bottom, 0px)); }
+.lb-scroll img { display: block; width: 100%; max-width: 100%; height: auto; margin: auto; background: #fff; border-radius: 6px; cursor: zoom-in; }
+.lb-scroll.zoom { align-items: flex-start; }
+.lb-scroll.zoom img { width: 240%; max-width: none; cursor: zoom-out; }
+</style>
+
+<div class="bar">
+  <button class="bar-btn" id="barBtn" type="button" aria-haspopup="dialog">
+    <span class="bar-topic" id="barTopic">Cardio-Pulm 1 · <span>Multiple choice</span></span>
+    <span class="bar-q" id="barQ"></span>
+    <span class="bar-menu"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" fill="none"/></svg>Menu</span>
+  </button>
+</div>
+
+<div class="wrap quiz" id="book">
+  <section class="intro">
+    <p class="kicker">Cardio-Pulm 1 · First Pass · Physiology · Histology · Biochemistry · Anatomy</p>
+    <h1>Cardio-Pulm 1 · Multiple Choice</h1>
+    <p>Every flashcard from the Cardio-Pulm 1 deck, rewritten as a multiple-choice question: <b id="nTotal"></b> questions in one long page, in the order the lessons teach them. Each one has the card&rsquo;s answer plus three wrong choices built from the mistakes people usually make.</p>
+    <p class="topics-line" id="topicsLine"></p>
+    <p>Tap a choice to check it. The right answer turns green, and the card&rsquo;s notes and pictures open underneath. Lessons tagged <span class="cp2" style="margin:0">CP2</span> are not on the Oct 19 exam.</p>
+    <div class="controls">
+      <div>
+        <p class="ctl-label" id="subjLabel">Subject</p>
+        <div class="seg" role="group" aria-labelledby="subjLabel" id="subjSeg">
+          <button type="button" data-subj="all" aria-pressed="true">All</button>
+          <button type="button" data-subj="phys" aria-pressed="false">Phys</button>
+          <button type="button" data-subj="hist" aria-pressed="false">Histo</button>
+          <button type="button" data-subj="bio" aria-pressed="false">Biochem</button>
+          <button type="button" data-subj="anat" aria-pressed="false">Anat</button>
+        </div>
+      </div>
+      <div>
+        <p class="ctl-label" id="showLabel">Show</p>
+        <div class="seg" role="group" aria-labelledby="showLabel" id="showSeg">
+          <button type="button" data-show="all" aria-pressed="true">All</button>
+          <button type="button" data-show="hy" aria-pressed="false">High yield</button>
+          <button type="button" data-show="new" aria-pressed="false">New</button>
+          <button type="button" data-show="missed" aria-pressed="false">Missed</button>
+          <button type="button" data-show="star" aria-pressed="false" aria-label="Starred">★</button>
+        </div>
+        <p class="ctl-hint" id="showHint"></p>
+      </div>
+      <div>
+        <p class="ctl-label" id="modeLabel">Answers</p>
+        <div class="seg" role="group" aria-labelledby="modeLabel" id="modeSeg">
+          <button type="button" data-mode="quiz" aria-pressed="true">Hide until I pick</button>
+          <button type="button" data-mode="all" aria-pressed="false">Show all</button>
+        </div>
+      </div>
+      <div>
+        <p class="ctl-label">Text size</p>
+        <div class="size"><button type="button" id="sizeDown" aria-label="Smaller text">A−</button><output id="sizeOut">100%</output><button type="button" id="sizeUp" aria-label="Larger text">A+</button></div>
+        <p class="ctl-hint">Your answers and stars are saved in this browser, so you can stop and pick up where you left off. Clear them from the Menu or at the top of any lesson.</p>
+      </div>
+      <button type="button" class="resume" id="resume" hidden></button>
+    </div>
+    <p class="filter-empty" id="filterEmpty" hidden></p>
+  </section>
+  <div id="qs"></div>
+</div>
+
+<div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+  <div class="sheet-card">
+    <div class="sheet-top"><h2 id="sheetTitle">Lessons</h2><button type="button" class="close" id="sheetClose">Close</button></div>
+    <p class="score" id="score"></p>
+    <ul class="toc" id="toc"></ul>
+    <div class="sheet-row">
+      <button type="button" id="themeBtn">Light / dark</button>
+      <button type="button" id="toTop">Back to top</button>
+      <button type="button" class="danger" id="clearAll">Clear all my answers</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const DATA = __DATA__;
+</script>
+<script>
+(() => {
+const $ = s => document.querySelector(s);
+const KEY = 'cp1mc.';
+const store = {
+  get(k, d) { try { const v = localStorage.getItem(KEY + k); return v === null ? d : JSON.parse(v); } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem(KEY + k, JSON.stringify(v)); } catch (e) {} }
+};
+const SUBJ = { phys: 'Physiology', hist: 'Histology', bio: 'Biochemistry', anat: 'Anatomy' };
+const L = 'ABCDEFGH';
+const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;');
+const strip = s => String(s).replace(/<[^>]+>/g, '').replace(/&[a-z]+;/g, ' ');
+
+let ans = store.get('ans', {});           // question id -> picked option index
+let stars = new Set(store.get('stars', []));
+let subj = store.get('subj', 'all'), show = store.get('show', 'all'), mode = store.get('mode', 'quiz');
+let scale = store.get('scale', 1);
+const Q = {};                              // id -> {q, l, s, num}
+let num = 0;
+
+// ---------- build the page ----------
+let html = '', lastKey = null;
+DATA.lessons.forEach((l, li) => {
+  if (l.key !== lastKey) {
+    const ls = DATA.lessons.filter(x => x.key === l.key);
+    const n = ls.reduce((a, x) => a + x.secs.reduce((b, s) => b + s.qs.length, 0), 0);
+    html += `<section class="part ${l.key}" id="P-${l.key}" data-key="${l.key}"><h2>${SUBJ[l.key]}</h2><p>${ls.length} lessons · ${n} questions</p></section>`;
+    lastKey = l.key;
+  }
+  const lq = l.secs.reduce((a, s) => a + s.qs.length, 0);
+  html += `<section class="lesson ${l.key}" id="L${l.n}" data-n="${l.n}" data-key="${l.key}">
+    <header class="lesson-head"><p class="eyebrow"><span class="subj">${SUBJ[l.key]}</span> · ${esc(l.sub)}</p>
+    <h2>${l.t}${l.cp2 ? '<span class="cp2">CP2</span>' : ''}</h2>
+    <div class="sec-tools"><span class="sec-stat" data-lstat="${l.n}"></span><button type="button" class="danger" data-clear="${l.n}">Clear answers</button></div></header>`;
+  l.secs.forEach((s, si) => {
+    html += `<div class="subsec" data-sec="${l.n}-${si}"><div class="subsec-head" id="L${l.n}-${si + 1}"><p class="eyebrow">Section ${si + 1} of ${l.secs.length} · ${s.qs.length} question${s.qs.length === 1 ? '' : 's'}</p><h3>${s.t}</h3></div>`;
+    s.qs.forEach(q => {
+      num++;
+      Q[q.id] = { q, l, s: si, num };
+      html += `<article class="q${q.hy ? ' hy' : ''}" id="q${q.id}" data-id="${q.id}">
+        <div class="qhead"><span class="qnum">${num}</span>${q.hy ? '<span class="tag">High yield</span>' : ''}<button type="button" class="star" data-star aria-pressed="false" aria-label="Star question ${num}">☆</button></div>
+        <p class="stem">${q.q}</p>
+        <ol class="opts">${q.o.map((o, i) => `<li><button type="button" class="opt${i === q.k ? ' is-ans' : ''}" data-i="${i}"><span class="ol">${L[i]}</span><span class="ot">${o}</span><span class="mk">${i === q.k ? 'Answer' : 'Your pick'}</span></button></li>`).join('')}</ol>
+        <div class="reveal"><p class="verdict"></p>
+          <div class="answer"><span class="lab">Answer</span>${L[q.k]}. ${q.o[q.k]}</div>
+          ${q.more ? `<div class="more">${q.more.replace(/<table/g, '<div class="tw"><table').replace(/<\/table>/g, '</table></div>')}</div>` : ''}
+          ${q.figs && q.figs.length ? `<details class="pics"><summary>Pictures (${q.figs.length})</summary><div class="figs">${q.figs.map(f => {
+            const cap = DATA.figs[f] || '';
+            return `<figure><button type="button" data-zoom="${esc(f)}" aria-label="Enlarge picture"><img data-src="${esc(f)}" alt="${esc(strip(cap))}"></button>${cap ? `<figcaption>${cap}</figcaption>` : ''}</figure>`;
+          }).join('')}</div></details>` : ''}
+          <button type="button" class="retry">Try again</button>
+        </div></article>`;
+    });
+    html += `</div>`;
+  });
+  html += `</section>`;
+});
+$('#qs').innerHTML = html;
+const TOTAL = num;
+$('#nTotal').textContent = TOTAL.toLocaleString();
+$('#topicsLine').textContent = Object.entries(SUBJ).map(([k, t]) => {
+  const ls = DATA.lessons.filter(l => l.key === k);
+  return `${t} ${ls.reduce((a, l) => a + l.secs.reduce((b, s) => b + s.qs.length, 0), 0)}`;
+}).join(' · ') + ' · ' + DATA.lessons.length + ' lessons';
+
+// ---------- question state ----------
+function paint(id) {
+  const el = document.getElementById('q' + id), { q } = Q[id], p = ans[id];
+  const done = p !== undefined;
+  el.classList.toggle('done', done);
+  el.querySelectorAll('.opt').forEach(b => b.classList.toggle('picked', done && +b.dataset.i === p));
+  const v = el.querySelector('.verdict');
+  if (done) {
+    v.className = 'verdict ' + (p === q.k ? 'right' : 'wrong');
+    v.textContent = p === q.k ? 'Correct.' : `Not quite. You picked ${L[p]}; the answer is ${L[q.k]}.`;
+  } else { v.className = 'verdict'; v.textContent = ''; }
+  const st = stars.has(id), sb = el.querySelector('[data-star]');
+  el.classList.toggle('starred', st);
+  sb.setAttribute('aria-pressed', st); sb.textContent = st ? '★' : '☆';
+  sb.setAttribute('aria-label', (st ? 'Unstar' : 'Star') + ' question ' + Q[id].num);
+}
+function lessonStat(n) {
+  const l = DATA.lessons.find(x => x.n === n); let t = 0, a = 0, c = 0;
+  l.secs.forEach(s => s.qs.forEach(q => { t++; if (ans[q.id] !== undefined) { a++; if (ans[q.id] === q.k) c++; } }));
+  return { t, a, c };
+}
+function paintLesson(n) {
+  const { t, a, c } = lessonStat(n), el = document.querySelector(`[data-lstat="${n}"]`);
+  el.innerHTML = a ? `<b>${a}</b> of ${t} answered · <b>${c}</b> right (${Math.round(c / a * 100)}%)` : `${t} questions · none answered yet`;
+  document.querySelector(`[data-clear="${n}"]`).hidden = !a;
+}
+function totals() {
+  let a = 0, c = 0;
+  for (const id in ans) if (Q[id]) { a++; if (ans[id] === Q[id].q.k) c++; }
+  return { a, c };
+}
+function save() { store.set('ans', ans); }
+
+// ---------- filters ----------
+function visibleQ(id) {
+  const { q, l } = Q[id];
+  if (subj !== 'all' && l.key !== subj) return false;
+  if (show === 'hy') return !!q.hy;
+  if (show === 'star') return stars.has(id);
+  if (show === 'new') return ans[id] === undefined;
+  if (show === 'missed') return ans[id] !== undefined && ans[id] !== q.k;
+  return true;
+}
+const HINT = {
+  all: n => `All ${n.toLocaleString()} questions.`,
+  hy: n => `${n} questions the flashcards marked high yield.`,
+  new: n => `${n.toLocaleString()} questions you haven't answered yet.`,
+  missed: n => `${n} question${n === 1 ? '' : 's'} you got wrong. Tap Try again to redo one; it stays in this list until you switch filters.`,
+  star: n => `${n} starred question${n === 1 ? '' : 's'}. Tap ☆ next to any question number to star it.`
+};
+function applyFilters() {
+  let shown = 0;
+  document.querySelectorAll('.lesson').forEach(ls => {
+    let lv = 0;
+    ls.querySelectorAll('.subsec').forEach(ss => {
+      let sv = 0;
+      ss.querySelectorAll('.q').forEach(el => { const v = visibleQ(el.dataset.id); el.hidden = !v; if (v) sv++; });
+      ss.hidden = !sv; lv += sv;
+    });
+    ls.hidden = !lv; shown += lv;
+  });
+  document.querySelectorAll('.part').forEach(p => {
+    p.hidden = ![...document.querySelectorAll(`.lesson[data-key="${p.dataset.key}"]`)].some(l => !l.hidden);
+  });
+  $('#showHint').textContent = HINT[show](shown);
+  const fe = $('#filterEmpty');
+  fe.hidden = !!shown;
+  if (!shown) fe.textContent = show === 'star' ? 'No starred questions here yet. Tap ☆ next to a question number to star it.' :
+    show === 'missed' ? 'Nothing missed here. Answer some questions first, or switch the filter to All.' :
+    show === 'new' ? 'You have answered every question here.' : 'No questions match.';
+  document.querySelectorAll('#subjSeg button').forEach(b => b.setAttribute('aria-pressed', b.dataset.subj === subj));
+  document.querySelectorAll('#showSeg button').forEach(b => b.setAttribute('aria-pressed', b.dataset.show === show));
+  updateResume(); onScroll();
+}
+function setMode(m) {
+  mode = m; store.set('mode', m);
+  $('#book').classList.toggle('quiz', m === 'quiz'); $('#book').classList.toggle('all', m === 'all');
+  document.querySelectorAll('#modeSeg button').forEach(b => b.setAttribute('aria-pressed', b.dataset.mode === m));
+}
+
+// ---------- resume ----------
+function firstOpen() {
+  for (const el of document.querySelectorAll('.q')) if (!el.hidden && ans[el.dataset.id] === undefined) return el;
+  return null;
+}
+function updateResume() {
+  const { a } = totals(), el = firstOpen(), b = $('#resume');
+  b.hidden = !a || !el;
+  if (el) b.textContent = `Continue at question ${Q[el.dataset.id].num} →`;
+}
+$('#resume').addEventListener('click', () => { const el = firstOpen(); if (el) el.scrollIntoView(); });
+
+// ---------- clicks ----------
+function armed(btn, label, run) {
+  if (btn.classList.contains('arm')) { btn.classList.remove('arm'); clearTimeout(btn._t); btn.textContent = label; run(); return; }
+  btn.classList.add('arm'); btn.textContent = 'Tap again to clear';
+  btn._t = setTimeout(() => { btn.classList.remove('arm'); btn.textContent = label; }, 3500);
+}
+$('#book').addEventListener('click', e => {
+  const t = e.target.closest('button'); if (!t) return;
+  const qel = t.closest('.q');
+  if (t.classList.contains('opt') && qel) {
+    const id = qel.dataset.id;
+    if (ans[id] !== undefined || mode === 'all') return;
+    ans[id] = +t.dataset.i; save(); paint(id); paintLesson(Q[id].l.n); updateBar(); updateResume();
+  } else if (t.hasAttribute('data-star') && qel) {
+    const id = qel.dataset.id; stars.has(id) ? stars.delete(id) : stars.add(id); store.set('stars', [...stars]); paint(id);
+  } else if (t.classList.contains('retry') && qel) {
+    const id = qel.dataset.id; delete ans[id]; save(); paint(id); paintLesson(Q[id].l.n); updateBar(); updateResume();
+    qel.scrollIntoView({ block: 'nearest' });
+  } else if (t.dataset.zoom) {
+    openLB(t.dataset.zoom, t.querySelector('img').alt);
+  } else if (t.dataset.clear) {
+    armed(t, 'Clear answers', () => {
+      const n = +t.dataset.clear;
+      DATA.lessons.find(x => x.n === n).secs.forEach(s => s.qs.forEach(q => { delete ans[q.id]; paint(q.id); }));
+      save(); paintLesson(n); updateBar(); updateResume();
+    });
+  } else if (t.dataset.subj) { subj = t.dataset.subj; store.set('subj', subj); applyFilters(); }
+  else if (t.dataset.show) { show = t.dataset.show; store.set('show', show); applyFilters(); }
+  else if (t.dataset.mode) setMode(t.dataset.mode);
+});
+$('#book').addEventListener('toggle', e => {
+  const d = e.target; if (!d.classList || !d.classList.contains('pics') || !d.open) return;
+  d.querySelectorAll('img[data-src]').forEach(im => { im.src = im.dataset.src; im.removeAttribute('data-src'); });
+}, true);
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') { const lb = document.querySelector('.lb'); if (lb) lb.remove(); else if (!$('#sheet').hidden) closeSheet(); }
+});
+
+// ---------- text size ----------
+function setScale(s) {
+  scale = Math.max(.8, Math.min(1.4, Math.round(s * 10) / 10)); store.set('scale', scale);
+  document.documentElement.style.setProperty('--scale', scale); $('#sizeOut').textContent = Math.round(scale * 100) + '%';
+}
+$('#sizeDown').addEventListener('click', () => setScale(scale - .1));
+$('#sizeUp').addEventListener('click', () => setScale(scale + .1));
+
+// ---------- picture viewer ----------
+function openLB(src, alt) {
+  const lb = document.createElement('div'); lb.className = 'lb'; lb.setAttribute('role', 'dialog'); lb.setAttribute('aria-label', 'Picture');
+  lb.innerHTML = `<div class="lb-top"><button type="button" class="close">Close</button></div><div class="lb-scroll"><img src="${esc(src)}" alt="${esc(alt || '')}"></div>`;
+  lb.addEventListener('click', e => {
+    if (e.target.tagName === 'IMG') { e.target.parentElement.classList.toggle('zoom'); return; }
+    lb.remove();
+  });
+  document.body.appendChild(lb); lb.querySelector('.close').focus();
+}
+
+// ---------- sticky bar ----------
+let curId = null;
+function updateBar() {
+  const { a, c } = totals();
+  if (curId) {
+    const { l, s, num } = Q[curId];
+    $('#barTopic').innerHTML = `${l.t} · <span>${l.secs[s].t}</span>`;
+    $('#barQ').textContent = `Q${num} · ${a ? Math.round(c / a * 100) + '%' : TOTAL.toLocaleString()}`;
+  } else {
+    $('#barTopic').innerHTML = 'Cardio-Pulm 1 · <span>Multiple choice</span>';
+    $('#barQ').textContent = a ? `${a}/${TOTAL} · ${Math.round(c / a * 100)}%` : `${TOTAL.toLocaleString()} questions`;
+  }
+}
+let ticking = false;
+function onScroll() {
+  if (ticking) return; ticking = true;
+  requestAnimationFrame(() => {
+    ticking = false;
+    const y = $('.bar').getBoundingClientRect().bottom + 40;
+    let id = null;
+    // binary search over visible questions by position
+    const els = [...document.querySelectorAll('.q:not([hidden])')].filter(el => !el.closest('[hidden]'));
+    let lo = 0, hi = els.length - 1;
+    while (lo <= hi) { const m = (lo + hi) >> 1; if (els[m].getBoundingClientRect().top <= y) { id = els[m].dataset.id; lo = m + 1; } else hi = m - 1; }
+    if (id !== curId) { curId = id; updateBar(); }
+  });
+}
+window.addEventListener('scroll', onScroll, { passive: true });
+
+// ---------- menu sheet ----------
+function openSheet() {
+  const { a, c } = totals();
+  $('#score').innerHTML = a ? `<b>${a.toLocaleString()}</b> of ${TOTAL.toLocaleString()} answered · <b>${c.toLocaleString()}</b> right (${Math.round(c / a * 100)}%) · ${stars.size} starred` : `${TOTAL.toLocaleString()} questions · none answered yet · ${stars.size} starred`;
+  const here = curId ? Q[curId].l.n : null;
+  let h = '', last = null;
+  DATA.lessons.forEach(l => {
+    if (subj !== 'all' && l.key !== subj) return;
+    if (l.key !== last) { h += `<li class="toc-div ${l.key}">${SUBJ[l.key]}</li>`; last = l.key; }
+    const st = lessonStat(l.n);
+    h += `<li class="${l.key}"><a href="#L${l.n}" data-go="L${l.n}" class="${here === l.n ? 'here' : ''}"><span class="toc-n">${Q[l.secs[0].qs[0].id].num}</span><span class="toc-title">${l.t}${l.cp2 ? ' <span class="cp2">CP2</span>' : ''}</span><span class="toc-stat">${st.a ? `${st.a}/${st.t} · ${Math.round(st.c / st.a * 100)}%` : st.t}</span></a>
+      <details class="toc-subs"><summary>${l.secs.length} sections</summary><ul class="toc-sub">${l.secs.map((s, si) =>
+        `<li><a href="#L${l.n}-${si + 1}" data-go="L${l.n}-${si + 1}"><span class="toc-n">${si + 1}</span><span class="toc-title">${s.t}</span><span class="toc-stat">${s.qs.length}</span></a></li>`).join('')}</ul></details></li>`;
+  });
+  $('#toc').innerHTML = h;
+  $('#sheet').hidden = false; document.body.style.overflow = 'hidden';
+  const hl = $('#toc a.here'); if (hl) hl.scrollIntoView({ block: 'center' });
+  $('#sheetClose').focus();
+}
+function closeSheet() { $('#sheet').hidden = true; document.body.style.overflow = ''; $('#barBtn').focus({ preventScroll: true }); }
+$('#barBtn').addEventListener('click', openSheet);
+$('#sheetClose').addEventListener('click', closeSheet);
+$('#sheet').addEventListener('click', e => {
+  if (e.target === $('#sheet')) return closeSheet();
+  const a = e.target.closest('[data-go]');
+  if (a) {
+    e.preventDefault(); closeSheet();
+    let el = document.getElementById(a.dataset.go);
+    if (el && el.closest('[hidden]')) { show = 'all'; store.set('show', show); if (subj !== 'all' && !el.closest('.' + subj)) { subj = 'all'; store.set('subj', subj); } applyFilters(); }
+    if (el) el.scrollIntoView();
+  }
+});
+$('#toTop').addEventListener('click', () => { closeSheet(); window.scrollTo(0, 0); });
+$('#themeBtn').addEventListener('click', () => {
+  const r = document.documentElement;
+  const dark = r.dataset.theme ? r.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+  r.dataset.theme = dark ? 'light' : 'dark'; store.set('theme', r.dataset.theme);
+});
+$('#clearAll').addEventListener('click', e => armed(e.currentTarget, 'Clear all my answers', () => {
+  ans = {}; save(); Object.keys(Q).forEach(paint); DATA.lessons.forEach(l => paintLesson(l.n)); updateBar(); updateResume(); openSheet();
+}));
+
+// ---------- start ----------
+{ const th = store.get('theme', null); if (th) document.documentElement.dataset.theme = th; }
+setScale(scale);
+setMode(mode);
+Object.keys(Q).forEach(paint);
+DATA.lessons.forEach(l => paintLesson(l.n));
+applyFilters();
+updateBar();
+{ const h = location.hash.slice(1); if (/^(L\d+(-\d+)?|P-\w+)$/.test(h)) { const el = document.getElementById(h); if (el) { if (el.closest('[hidden]')) { subj = 'all'; show = 'all'; applyFilters(); } el.scrollIntoView(); } } }
+})();
+</script>
